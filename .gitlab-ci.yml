@@ -1,4 +1,32 @@
+image:
+ name: hashicorp/terraform:0.13.4        
+
 stages:
  - test
  - apply
- - destroy  
+ - destroy
+
+test:
+ stage: test
+ script:
+  - terraform validate
+ 
+apply:
+ stage: apply
+ script:
+  - terraform apply
+ artifacts:
+  name: "terraform.tfstate"
+  paths: 
+   - public
+  expire_in: 2 weeks   
+ dependencies:
+  - test       
+
+destroy:
+ stage: destroy
+ script:
+  - terraform destroy
+ dependencies:
+  - apply       
+ when: manual       
