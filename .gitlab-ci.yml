@@ -14,6 +14,7 @@ infra_test:
  script:
   - terraform init .      
   - terraform validate .
+  - echo "Infrastructure validated, ready to be deployed!"
 
 # deploy the tested tf infrastructure    
 infra_apply:
@@ -22,11 +23,11 @@ infra_apply:
   - bash        
  script:
   - terraform init -var="group_id=d3" .
-  - terraform apply -var="group_id=d3" -auto-approve .  
+  - terraform apply -var="group_id=d3" -auto-approve .
+  - echo "Infrastrucure successfully deployed!"  
  artifacts:
-  name: "terraform.tfstate"
   paths: 
-   - public
+   - tfstate.json
   expire_in: 2 weeks   
  dependencies:
   - infra_test       
@@ -39,6 +40,7 @@ infra_destroy:
  script:
   - terraform init .
   - terraform destroy -var="group_id=d3" -auto-approve .
+  - echo "Infrastructure successfully destroyed!"  
  dependencies:
   - infra_apply       
  when: manual       
