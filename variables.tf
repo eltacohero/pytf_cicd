@@ -9,5 +9,4 @@ variable "runtime" {
 
 variable "group_id" {
   type    = string
-
 }
