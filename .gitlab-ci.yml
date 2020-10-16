@@ -1,32 +1,40 @@
-image:
- name: hashicorp/terraform:0.13.4        
-
 stages:
- - test
- - apply
- - destroy
+ - infra_test
+ - infra_apply
+ - infra_destroy
 
-test:
- stage: test
+# tests the tf infrastructure   
+infra_test:
+ stage: infra_test
+ tags:
+  - runner        
  script:
-  - terraform validate
- 
-apply:
- stage: apply
+  - terraform validate .
+
+# deploy the tested tf infrastructure    
+infra_apply:
+ stage: infra_apply
+ tags:
+  - runner        
  script:
-  - terraform apply
+  - terraform init -var="group_id=d3" .
+  - terraform apply -var="group_id=d3" -auto-approve .  
  artifacts:
   name: "terraform.tfstate"
   paths: 
    - public
   expire_in: 2 weeks   
  dependencies:
-  - test       
+  - infra_test       
 
-destroy:
- stage: destroy
+# manually destroy the deployed tf infrastrucure   
+infra_destroy:
+ stage: infra_destroy
+ tags:
+  - runner        
  script:
-  - terraform destroy
+  - terraform init .
+  - terraform destroy -var="group_id=d3" -auto-approve .
  dependencies:
-  - apply       
+  - infra_apply       
  when: manual       
