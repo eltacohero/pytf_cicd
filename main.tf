@@ -1,5 +1,7 @@
 provider "aws" {
   region = var.aws_region
+  AWS_ACCESS_KEY_ID = var.access_key
+  AWS_SECRET_ACCESS_KEY = var.secret_access
 }
 
 data "archive_file" "lambda_zip" {
