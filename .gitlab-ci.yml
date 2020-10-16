@@ -12,7 +12,8 @@ infra_test:
  tags:
   - runner        
  script:
-  - terraform validate main.tf
+  - terraform init .      
+  - terraform validate .
 
 # deploy the tested tf infrastructure    
 infra_apply:
