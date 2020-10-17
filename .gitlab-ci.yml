@@ -44,5 +44,4 @@ infra_destroy:
   - export AWS_SECRET_ACCESS_KEY=ygq6vXTYUEHv/onoWHAULDAA0gSqVTu6jQMKOp3S
   - terraform init -var="group_id=d3" . 
   - terraform destroy -var="group_id=d3" -auto-approve .
-  - echo "Infrastructure successfully destroyed!"         
- when: manual       
+  - echo "Infrastructure successfully destroyed!"               
