@@ -1,6 +1,6 @@
 provider "aws" {
   region = var.aws_region
-  profile = var.aws_profile
+  profile = "default"
 }
 
 data "archive_file" "lambda_zip" {
