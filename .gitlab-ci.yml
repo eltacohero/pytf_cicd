@@ -29,7 +29,7 @@ infra_apply:
   - echo "Infrastrucure successfully deployed!"  
  artifacts:
   paths: 
-   - tfstate.json
+   - terraform.tfstate
   expire_in: 2 weeks   
  dependencies:
   - infra_test       
@@ -40,7 +40,9 @@ infra_destroy:
  tags:
   - bash        
  script:
-  - terraform init .
+  - export AWS_ACCESS_KEY_ID=AKIA2G2XJY5PWFSNRXVS 
+  - export AWS_SECRET_ACCESS_KEY=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
+  - terraform init -var="group_id=d3" . 
   - terraform destroy -var="group_id=d3" -auto-approve .
   - echo "Infrastructure successfully destroyed!"  
  dependencies:
