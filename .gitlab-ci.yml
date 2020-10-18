@@ -15,6 +15,10 @@ infra_test:
   - terraform init .      
   - terraform validate .
   - echo "Infrastructure validated, ready to be deployed!"
+ artifacts:
+  paths: 
+   - terraform.tfstate
+  expire_in: 2 weeks   
 
 # deploy the tested tf infrastructure    
 infra_apply:
@@ -44,4 +48,8 @@ infra_destroy:
   - export AWS_SECRET_ACCESS_KEY=ygq6vXTYUEHv/onoWHAULDAA0gSqVTu6jQMKOp3S 
   - terraform destroy -var="group_id=d3" -auto-approve .  
   - echo "Infrastructure successfully destroyed!"
+ artifacts:
+  paths: 
+   - terraform.tfstate
+  expire_in: 2 weeks    
  when: manual   
