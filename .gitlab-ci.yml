@@ -1,4 +1,52 @@
-stages:
- - test
- - apply
- - destroy  
+image:
+ name: hashicorp/terraform:0.13.4        
+
+stages: 
+ - infra_test
+ - infra_apply
+ - infra_destroy
+
+# tests the tf infrastructure   
+infra_test:
+ stage: infra_test
+ tags:
+  - bash        
+ script:
+  - terraform init .      
+  - terraform validate .
+  - echo "Infrastructure validated, ready to be deployed!"
+ 
+# deploy the tested tf infrastructure    
+infra_apply:
+ stage: infra_apply
+ tags:
+  - bash        
+ script:
+  - export AWS_ACCESS_KEY_ID=AKIA2G2XJY5PWFSNRXVS 
+  - export AWS_SECRET_ACCESS_KEY=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      
+  - terraform init -var="group_id=d3" .
+  - terraform apply -var="group_id=d3" -auto-approve .
+  - echo "Infrastrucure successfully deployed!"  
+ artifacts:
+  paths: 
+   - terraform.tfstate
+  expire_in: 2 weeks   
+ dependencies:
+  - infra_test       
+
+# manually destroy the deployed tf infrastrucure   
+infra_destroy:
+ stage: infra_destroy
+ tags:
+  - bash        
+ script:
+  - export AWS_ACCESS_KEY_ID=AKIA2G2XJY5PWFSNRXVS 
+  - export AWS_SECRET_ACCESS_KEY=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
+  - terraform init -var="group_id=3" . 
+  - terraform destroy -var="group_id=d3" -auto-approve .  
+  - echo "Infrastructure successfully destroyed!"
+ artifacts:
+  paths: 
+   - terraform.tfstate
+  expire_in: 2 weeks    
+ when: manual   
