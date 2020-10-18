@@ -11,7 +11,8 @@ infra_test:
  stage: infra_test
  tags:
   - bash        
- script:      
+ script:
+  - terraform init .      
   - terraform validate .
   - echo "Infrastructure validated, ready to be deployed!"
  
@@ -41,7 +42,7 @@ infra_destroy:
  script:
   - export AWS_ACCESS_KEY_ID=AKIA2G2XJY5PWFSNRXVS 
   - export AWS_SECRET_ACCESS_KEY=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
-  - terraform init . 
+  - terraform init -var="group_id=3" . 
   - terraform destroy -var="group_id=d3" -auto-approve .  
   - echo "Infrastructure successfully destroyed!"
  artifacts:
